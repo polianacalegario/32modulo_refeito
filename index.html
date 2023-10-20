@@ -2,36 +2,60 @@
 <html>
 <head>
     <title>Formulário com CEP</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>Formulário de Endereço</h1>
-    <form>
-        <label for="nome">Nome Completo:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
+    <div class="container">
+        <h1>Formulário de Endereço</h1>
+        <form>
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required>
+            
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" required>
+            <button type="button" onclick="consultarCEP()">Consultar CEP</button>
+            
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" name="rua" required>
+            
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" required>
+            
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name "cidade" required>
+            
+            <label for="uf">UF:</label>
+            <input type="text" id="uf" name="uf" required>
+            
+            <button type="button" onclick="enviarFormulario()">Enviar</button>
+        </form>
+    </div>
 
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" required><br><br>
+    <script>
+        function consultarCEP() {
+            var cep = document.getElementById('cep').value;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => preencherCampos(data))
+                .catch(error => console.error('Erro ao consultar CEP:', error));
+        }
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        function preencherCampos(data) {
+            document.getElementById('rua').value = data.logradouro;
+            document.getElementById('bairro').value = data.bairro;
+            document.getElementById('cidade').value = data.localidade;
+            document.getElementById('uf').value = data.uf;
+        }
 
-        <label for="cep">CEP:</label>
-        <input type="text" id="cep" name="cep" required>
-        <button type="button" onclick="consultarCEP()">Consultar CEP</button><br><br>
-
-        <label for="rua">Rua:</label>
-        <input type="text" id="rua" name="rua" required><br><br>
-
-        <label for="bairro">Bairro:</label>
-        <input type="text" id="bairro" name="bairro" required><br><br>
-
-        <label for="cidade">Cidade:</label>
-        <input type="text" id="cidade" name="cidade" required><br><br>
-
-        <label for="uf">UF:</label>
-        <input type="text" id="uf" name="uf" required><br><br>
-
-        <button type="button" onclick="enviarFormulario()">Enviar</button>
-    </form>
+        function enviarFormulario() {
+            // Adicione aqui a lógica para enviar o formulário
+        }
+    </script>
 </body>
 </html>
